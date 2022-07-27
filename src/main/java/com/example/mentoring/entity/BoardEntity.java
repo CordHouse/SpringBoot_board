@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data // Getter + Setter 자동 생성
 @NoArgsConstructor // 빈 생성자
@@ -19,10 +16,19 @@ public class BoardEntity {
     // 데이터베이스에서 구별하기 위한 Id 값으로 @GeneratedValue를 통해 AI(Auto Increase) 설정한다.
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
     private String writer;
+
+    public BoardEntity(String title, String content, String writer){
+        this.title = title;
+        this.content = content;
+        this.writer = writer;
+    }
 
 }

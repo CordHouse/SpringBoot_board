@@ -1,6 +1,10 @@
 package com.example.mentoring.service;
 
+import com.example.mentoring.dto.board.BoardRequestDto;
+import com.example.mentoring.dto.board.BoardResponseDto;
 import com.example.mentoring.entity.BoardEntity;
+import com.example.mentoring.exception.BoardNotFoundException;
+import com.example.mentoring.exception.IdNotFoundException;
 import com.example.mentoring.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,21 +34,23 @@ public class BoardService {
     // http://localhost:8080/boards/1
     @Transactional(readOnly = true)
     public BoardEntity getBoard(Long id){
-        return boardRepository.findById(id).get();
+        return boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
     }
 
     // 데이터 저장
     // http://localhost:8080/boards
     @Transactional
-    public BoardEntity save(BoardEntity board){
-        return boardRepository.save(board);
+    public BoardResponseDto save(BoardRequestDto boardRequestDto){
+        BoardEntity boardEntity = new BoardEntity(boardRequestDto.getTitle(), boardRequestDto.getContent(), boardRequestDto.getWriter());
+        boardRepository.save(boardEntity);
+        return new BoardResponseDto().toDto(boardEntity);
     }
 
     // 데이터 단일 수정
     // http://localhost:8080/boards/1
     @Transactional
     public BoardEntity editBoard(Long id, BoardEntity board){
-        BoardEntity boardEntity = boardRepository.findById(id).get();
+        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(IdNotFoundException::new);
         boardEntity.setTitle(board.getTitle()); // 데이터 베이스의 데이터를 가져와 현재 입력받은 값을 수정하여 저장한다
         boardEntity.setContent(board.getContent()); // 위와 동일
         return boardEntity;
@@ -55,5 +61,11 @@ public class BoardService {
     @Transactional
     public void deleteBoard(Long id){
         boardRepository.deleteById(id);
+    }
+
+    // 데이터 모두 삭제
+    @Transactional
+    public void allDeleteBoard(){
+        boardRepository.deleteAll();
     }
 }
