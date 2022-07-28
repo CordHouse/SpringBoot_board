@@ -1,7 +1,9 @@
 package com.example.mentoring.service;
 
-import com.example.mentoring.dto.board.BoardRequestDto;
-import com.example.mentoring.dto.board.BoardResponseDto;
+import com.example.mentoring.dto.board.BoardCreateRequestDto;
+import com.example.mentoring.dto.board.BoardCreateResponseDto;
+import com.example.mentoring.dto.board.BoardEditRequestDto;
+import com.example.mentoring.dto.board.BoardEditResponseDto;
 import com.example.mentoring.entity.BoardEntity;
 import com.example.mentoring.exception.BoardNotFoundException;
 import com.example.mentoring.exception.IdNotFoundException;
@@ -40,20 +42,24 @@ public class BoardService {
     // 데이터 저장
     // http://localhost:8080/boards
     @Transactional
-    public BoardResponseDto save(BoardRequestDto boardRequestDto){
+    public BoardCreateResponseDto save(BoardCreateRequestDto boardRequestDto){
         BoardEntity boardEntity = new BoardEntity(boardRequestDto.getTitle(), boardRequestDto.getContent(), boardRequestDto.getWriter());
         boardRepository.save(boardEntity);
-        return new BoardResponseDto().toDto(boardEntity);
+        return new BoardCreateResponseDto().toDto(boardEntity);
     }
 
     // 데이터 단일 수정
     // http://localhost:8080/boards/1
     @Transactional
-    public BoardEntity editBoard(Long id, BoardEntity board){
+    public BoardEditResponseDto editBoard(Long id, BoardEditRequestDto boardEditRequestDto){
         BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(IdNotFoundException::new);
-        boardEntity.setTitle(board.getTitle()); // 데이터 베이스의 데이터를 가져와 현재 입력받은 값을 수정하여 저장한다
-        boardEntity.setContent(board.getContent()); // 위와 동일
-        return boardEntity;
+        boardEntity.setTitle(boardEditRequestDto.getTitle());
+        boardEntity.setContent(boardEditRequestDto.getContent());
+        return new BoardEditResponseDto().toDto(boardEntity);
+//        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(IdNotFoundException::new);
+//        boardEntity.setTitle(board.getTitle()); // 데이터 베이스의 데이터를 가져와 현재 입력받은 값을 수정하여 저장한다
+//        boardEntity.setContent(board.getContent()); // 위와 동일
+//        return boardEntity;
     }
 
     // 데이터 삭제

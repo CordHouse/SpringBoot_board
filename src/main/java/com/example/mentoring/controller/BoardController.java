@@ -1,8 +1,8 @@
 package com.example.mentoring.controller;
 
-import com.example.mentoring.dto.board.BoardRequestDto;
-import com.example.mentoring.entity.BoardEntity;
+import com.example.mentoring.dto.board.BoardCreateRequestDto;
 
+import com.example.mentoring.dto.board.BoardEditRequestDto;
 import com.example.mentoring.response.Response;
 import com.example.mentoring.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -50,14 +50,14 @@ public class BoardController {
     // @Valid -> Validation을 통해서 유효성 검사를 진행 위한 어노테이션 ( gradle 추가 )
     @PostMapping("/boards")
     @ResponseStatus(HttpStatus.CREATED)
-    public Response save(@RequestBody @Valid BoardRequestDto boardRequestDto){
+    public Response save(@RequestBody @Valid BoardCreateRequestDto boardRequestDto){
         return Response.success(boardService.save(boardRequestDto));
     }
 
     @PutMapping("/boards/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Response editBoard(@PathVariable("id") Long id, @RequestBody BoardEntity board){
-        return Response.success(boardService.editBoard(id, board));
+    public Response editBoard(@PathVariable("id") Long id, @RequestBody @Valid BoardEditRequestDto boardEditRequestDto){
+        return Response.success(boardService.editBoard(id, boardEditRequestDto));
     }
 
     @DeleteMapping("/boards/{id}")
