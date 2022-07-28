@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardRequestDto {
+public class BoardCreateRequestDto {
     // NotBlank = String 문자열된 경우
     // NotNull = Integer, Long 정수형의 경우
     // 프런트 -> 서버 데이터 전송
