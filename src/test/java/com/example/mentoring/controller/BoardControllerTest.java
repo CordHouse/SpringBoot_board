@@ -1,7 +1,7 @@
 package com.example.mentoring.controller;
 
-import com.example.mentoring.dto.board.BoardRequestDto;
-import com.example.mentoring.entity.BoardEntity;
+import com.example.mentoring.dto.board.BoardCreateRequestDto;
+import com.example.mentoring.dto.board.BoardEditRequestDto;
 import com.example.mentoring.service.BoardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +40,7 @@ public class BoardControllerTest {
     @DisplayName("게시글 작성")
     public void saveBoardTest() throws Exception{
         // given
-        BoardRequestDto boardRequestDto = new BoardRequestDto("제목", "내용", "홍길동");
+        BoardCreateRequestDto boardRequestDto = new BoardCreateRequestDto("제목", "내용", "홍길동");
 
         // when, then
         mockMvc.perform(
@@ -84,16 +84,16 @@ public class BoardControllerTest {
     public void editBoardTest() throws Exception{
         // given
         Long id = 1L;
-        BoardEntity boardEntity = new BoardEntity(1L, "제목1", "내용1", "홍길순");
+        BoardEditRequestDto boardEditRequestDto = new BoardEditRequestDto("제목1", "내용1");
 
         // when, then
         mockMvc.perform(
                 put("/api/boards/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(boardEntity)))
+                .content(objectMapper.writeValueAsString(boardEditRequestDto)))
                 .andExpect(status().isOk());
-        verify(boardService).editBoard(id, boardEntity);
-        assertThat(boardEntity.getTitle()).isEqualTo("제목1");
+        verify(boardService).editBoard(id, boardEditRequestDto);
+        assertThat(boardEditRequestDto.getTitle()).isEqualTo("제목1");
     }
 
     @Test
