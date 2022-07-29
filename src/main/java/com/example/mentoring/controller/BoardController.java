@@ -15,9 +15,8 @@ import javax.validation.Valid;
 * GetMapping : 데이터베이스에서 데이터를 가져와 사용할 경우 (id값 필요할 수도 있고 없을 수도 있음)
 * PostMapping : 데이터베이스에 데이터를 저장해야 하는 경우
 * PutMapping : 데이터베이스의 데이터 내용을 수정해야 하는 경우 (id값 필요)
-* DeleteMapping : 데이터베이스의 데이터를 지울때 사용 (id값 필요)
-*
-* 질문 # = 1*/
+* DeleteMapping : 데이터베이스의 데이터를 지울때 사용 (id값 필요)*
+* */
 
 // ResponseEntity<>(출력(return), http통신 수신여부)로 입력하기 때문에 출력값에 변화를 주고 싶다면 출력부분을 수정해야한다.
 
@@ -46,7 +45,7 @@ public class BoardController {
 
     // Post 방식
     // @RequestBody 어노테이션으로 받은 값은 Json 형식이기 때문에 Entity 클래스에 선언된 변수와 매칭시켜준다.
-    // # 여기서는 왜 HttpStatus.CREATED를 사용하는 것일까?
+    // # 여기서는 왜 HttpStatus.CREATED를 사용하는 것일까? - > 큰 차이는 없지만 구분해서 사용해 주는 것이 좋다.
     // @Valid -> Validation을 통해서 유효성 검사를 진행 위한 어노테이션 ( gradle 추가 )
     @PostMapping("/boards")
     @ResponseStatus(HttpStatus.CREATED)

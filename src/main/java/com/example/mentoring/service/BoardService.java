@@ -1,9 +1,6 @@
 package com.example.mentoring.service;
 
-import com.example.mentoring.dto.board.BoardCreateRequestDto;
-import com.example.mentoring.dto.board.BoardCreateResponseDto;
-import com.example.mentoring.dto.board.BoardEditRequestDto;
-import com.example.mentoring.dto.board.BoardEditResponseDto;
+import com.example.mentoring.dto.board.*;
 import com.example.mentoring.entity.BoardEntity;
 import com.example.mentoring.exception.BoardNotFoundException;
 import com.example.mentoring.exception.IdNotFoundException;
@@ -27,9 +24,9 @@ public class BoardService {
     // 데이터 전체 조회
     // http://localhost:8080/boards
     @Transactional(readOnly = true) // 이 어노테이션을 사용하면 더티체킹이 일어나서, 저장하지 않아도 메서드가 성공적으로 끝난다면 저장한다.
-    public List<BoardEntity> getBoards(){
+    public BoardAllInquiryResponseDto getBoards(){
         List<BoardEntity> boards = boardRepository.findAll();
-        return boards;
+        return new BoardAllInquiryResponseDto().toDto(boards);
     }
 
     // 데이터 단일 조회
