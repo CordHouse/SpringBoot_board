@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// 게시판 수정 커스텀
 public class BoardEditRequestDto {
     @NotBlank(message = "게시물 제목을 입력해주세요.")
     private String title;
